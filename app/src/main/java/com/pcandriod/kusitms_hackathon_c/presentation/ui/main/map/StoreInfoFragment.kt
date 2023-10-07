@@ -11,11 +11,22 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.pcandriod.kusitms_hackathon_c.R
+import com.pcandriod.kusitms_hackathon_c.data.module.api.ApiModule
+import com.pcandriod.kusitms_hackathon_c.data.remote.response.MapStoreResponse
+import com.pcandriod.kusitms_hackathon_c.data.remote.response.StoreSosResponse
+import com.pcandriod.kusitms_hackathon_c.data.remote.service.MapService
 import com.pcandriod.kusitms_hackathon_c.databinding.FragmentStoreInfoBinding
+import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.MainActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class StoreInfoFragment : Fragment() {
 
     lateinit var fragmentStoreInfoBinding: FragmentStoreInfoBinding
+    lateinit var mainActivity: MainActivity
+
+    var storeId = 0
 
     val fragmentList = mutableListOf<Fragment>()
 
@@ -29,8 +40,13 @@ class StoreInfoFragment : Fragment() {
     ): View? {
 
         fragmentStoreInfoBinding = FragmentStoreInfoBinding.inflate(inflater)
+        mainActivity = activity as MainActivity
 
         fragmentStoreInfoBinding.run {
+
+            materialToolbar.run {
+                title = "${mainActivity.storeName}"
+            }
 
             fragmentList.clear()
             fragmentList.add(StoreInfoReviewFragment())
