@@ -1,20 +1,32 @@
 package com.pcandriod.kusitms_hackathon_c.presentation.ui.main.home
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.pcandriod.kusitms_hackathon_c.R
 import com.pcandriod.kusitms_hackathon_c.data.data.PostItem
+import com.pcandriod.kusitms_hackathon_c.data.module.api.ApiModule
+import com.pcandriod.kusitms_hackathon_c.data.remote.response.ResponsePost
+import com.pcandriod.kusitms_hackathon_c.data.remote.response.ResponsePostDetail
+import com.pcandriod.kusitms_hackathon_c.data.remote.service.HomeService
+import com.pcandriod.kusitms_hackathon_c.data.remote.service.PostService
 import com.pcandriod.kusitms_hackathon_c.databinding.FragmentHomeBinding
 import com.pcandriod.kusitms_hackathon_c.presentation.adapter.PostAdapter
 import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.MainActivity
+import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.write.WriteCustomerFragment
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomeFragment : Fragment() {
+    lateinit var itemList : ArrayList<PostItem>
     lateinit var binding: FragmentHomeBinding
     lateinit var mainActivity: MainActivity
-    private var itemList = ArrayList<PostItem>()
 
     private lateinit var mRecyclerView: RecyclerView
 
@@ -25,13 +37,46 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater)
         mainActivity = activity as MainActivity
+        itemList = ArrayList()
+        apiStart()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        addDummyData()
+        goToWrite()
+
+        binding.btnStoreNews.setOnClickListener {
+            binding.btnStoreNews.setBackgroundResource(R.drawable.bg_button_true)
+            binding.btnStoreNews.setTextColor(resources.getColor(R.color.white))
+            binding.btnSos.setBackgroundResource(R.drawable.bg_button_false)
+            binding.btnSos.setTextColor(resources.getColor(R.color.black))
+            binding.btnMostLike.setBackgroundResource(R.drawable.bg_button_false)
+            binding.btnMostLike.setTextColor(resources.getColor(R.color.black))
+            apiStart()
+        }
+
+        binding.btnSos.setOnClickListener {
+            binding.btnStoreNews.setBackgroundResource(R.drawable.bg_button_false)
+            binding.btnStoreNews.setTextColor(resources.getColor(R.color.black))
+            binding.btnSos.setBackgroundResource(R.drawable.bg_button_true)
+            binding.btnSos.setTextColor(resources.getColor(R.color.white))
+            binding.btnMostLike.setBackgroundResource(R.drawable.bg_button_false)
+            binding.btnMostLike.setTextColor(resources.getColor(R.color.black))
+            sosAPI()
+        }
+
+        binding.btnMostLike.setOnClickListener {
+            binding.btnStoreNews.setBackgroundResource(R.drawable.bg_button_false)
+            binding.btnStoreNews.setTextColor(resources.getColor(R.color.black))
+            binding.btnSos.setBackgroundResource(R.drawable.bg_button_false)
+            binding.btnSos.setTextColor(resources.getColor(R.color.black))
+            binding.btnMostLike.setBackgroundResource(R.drawable.bg_button_true)
+            binding.btnMostLike.setTextColor(resources.getColor(R.color.white))
+            likeAPI()
+        }
     }
 
     private fun initView() {
@@ -39,17 +84,141 @@ class HomeFragment : Fragment() {
         mRecyclerView.adapter = PostAdapter(itemList)
     }
 
-    private fun addDummyData() {
-        for (i in 1..10) {
-            val postItem = PostItem(
-                title = "더미 제목 $i",
-                content = "더미 내용 $i",
-                time = 13,
-                comment = 0,
-            )
-            itemList.add(postItem)
+    private fun goToWrite() {
+        binding.fabAddPost.setOnClickListener {
+            val fragmentManager = requireActivity().supportFragmentManager
+            val transaction = fragmentManager.beginTransaction()
+            transaction.replace(R.id.fv_main, WriteCustomerFragment(itemList))
+            transaction.addToBackStack(null)
+            transaction.commit()
         }
+    }
 
-        (mRecyclerView.adapter as PostAdapter).notifyDataSetChanged()
+    private fun apiStart() {
+        itemList.clear()
+
+        val api = ApiModule.getInstance().create(HomeService::class.java)
+        api.getPostCategory()
+            .enqueue(object: Callback<ResponsePost> {
+                override fun onResponse(
+                    call: Call<ResponsePost>,
+                    response: Response<ResponsePost>
+                ) {
+                    var postList: List<ResponsePost.Content>?
+                    Log.d("HomeFragment", "API 성공 ${response.body()}")
+                    if (response.isSuccessful) {
+                        postList = response.body()?.content?.toList()
+
+                        postList?.forEach {
+                            val postItem = PostItem(it.title, it.content)
+                            itemList.add(postItem)
+                        }
+
+                        val postAdapter = PostAdapter(itemList)
+                        binding.rvHomePost.adapter = postAdapter
+                        postAdapter.notifyDataSetChanged()
+
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponsePost>, t: Throwable) {
+                    Log.e("HomeFragment", "API 실패 ${t}")
+                }
+
+            })
+    }
+
+    private fun sosAPI() {
+        itemList.clear()
+
+        val api = ApiModule.getInstance().create(HomeService::class.java)
+        api.getPostCategorySOS()
+            .enqueue(object: Callback<ResponsePost> {
+                override fun onResponse(
+                    call: Call<ResponsePost>,
+                    response: Response<ResponsePost>
+                ) {
+                    var postList: List<ResponsePost.Content>?
+                    Log.d("HomeFragment", "API 성공 ${response.body()}")
+                    if (response.isSuccessful) {
+                        postList = response.body()?.content?.toList()
+
+                        postList?.forEach {
+                            val postItem = PostItem(it.title, it.content)
+                            itemList.add(postItem)
+                        }
+
+                        val postAdapter = PostAdapter(itemList)
+                        binding.rvHomePost.adapter = postAdapter
+                        postAdapter.notifyDataSetChanged()
+
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponsePost>, t: Throwable) {
+                    Log.e("HomeFragment", "API 실패 ${t}")
+                }
+
+            })
+    }
+
+    private fun likeAPI() {
+        itemList.clear()
+
+        val api = ApiModule.getInstance().create(HomeService::class.java)
+        api.getPostCategoryLike()
+            .enqueue(object: Callback<ResponsePost> {
+                override fun onResponse(
+                    call: Call<ResponsePost>,
+                    response: Response<ResponsePost>
+                ) {
+                    var postList: List<ResponsePost.Content>?
+                    Log.d("HomeFragment", "API 성공 ${response.body()}")
+                    if (response.isSuccessful) {
+                        postList = response.body()?.content?.toList()
+
+                        postList?.forEach {
+                            val postItem = PostItem(it.title, it.content)
+                            itemList.add(postItem)
+                        }
+
+                        val postAdapter = PostAdapter(itemList)
+                        binding.rvHomePost.adapter = postAdapter
+                        postAdapter.notifyDataSetChanged()
+
+                        binding.btnStoreNews.setBackgroundResource(R.drawable.bg_button_false)
+                        binding.btnSos.setBackgroundResource(R.drawable.bg_button_false)
+                        binding.btnMostLike.setBackgroundResource(R.drawable.bg_button_true)
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponsePost>, t: Throwable) {
+                    Log.e("HomeFragment", "API 실패 ${t}")
+                }
+
+            })
+    }
+
+
+
+    private fun getPostDetail() {
+        val api = ApiModule.getInstance().create(PostService::class.java)
+        api.getPostDetail(id)
+            .enqueue(object: Callback<ResponsePostDetail> {
+                override fun onResponse(
+                    call: Call<ResponsePostDetail>,
+                    response: Response<ResponsePostDetail>
+                ) {
+                    if (response.isSuccessful) {
+                        Log.d("HomeFragment", "API 성공 ${response.body()}")
+
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponsePostDetail>, t: Throwable) {
+                    Log.e("HomeFragment", "API 실패 ${t}")
+                }
+
+            })
     }
 }

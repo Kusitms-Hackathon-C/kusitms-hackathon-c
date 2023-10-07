@@ -1,5 +1,6 @@
 package com.pcandriod.kusitms_hackathon_c.presentation.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -11,11 +12,12 @@ import com.navercorp.nid.profile.data.NidProfileResponse
 import com.pcandriod.kusitms_hackathon_c.BuildConfig
 import com.pcandriod.kusitms_hackathon_c.R
 import com.pcandriod.kusitms_hackathon_c.data.module.api.ApiModule
-import com.pcandriod.kusitms_hackathon_c.data.module.api.GlobalApplication
 import com.pcandriod.kusitms_hackathon_c.data.remote.request.SignInRequest
 import com.pcandriod.kusitms_hackathon_c.data.remote.response.ResponseSignIn
 import com.pcandriod.kusitms_hackathon_c.data.remote.service.LoginService
 import com.pcandriod.kusitms_hackathon_c.databinding.ActivityLoginBinding
+import com.pcandriod.kusitms_hackathon_c.presentation.MySharedPreferences
+import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.MainActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,8 +55,7 @@ class LoginActivity : AppCompatActivity() {
                                 accessToken = NaverIdLoginSDK.getAccessToken().toString()
                                 Log.d(TAG, "네이버 로그인 유저 정보 : $name")
                                 Log.d(TAG, "인가 토큰 : $accessToken")
-                                Log.d(TAG, "${result.profile}")
-
+                                Log.d(TAG, "${result.profile?.id}")
 
                                 api.postSignIn(
                                     SignInRequest(accessToken, name)
@@ -63,7 +64,9 @@ class LoginActivity : AppCompatActivity() {
                                         call: Call<ResponseSignIn>,
                                         response: Response<ResponseSignIn>
                                     ) {
-                                        Log.d(TAG, "API 성공 ${response.body().toString()}")
+                                        MySharedPreferences.saveUserId(this@LoginActivity, response.body()?.accessToken.toString())
+                                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                                        startActivity(intent)
                                     }
 
                                     override fun onFailure(

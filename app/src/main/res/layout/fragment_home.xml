@@ -95,7 +95,7 @@
             android:paddingHorizontal="16dp"
             android:text="가게 소식"
             android:textColor="@android:color/white"
-            android:theme="@style/subtitle3"
+            android:theme="@style/subtitle4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -144,7 +144,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cl_menu" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/extFloatingActionButton"
+        android:id="@+id/fab_add_post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
