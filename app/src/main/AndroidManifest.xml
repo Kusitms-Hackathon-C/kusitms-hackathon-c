@@ -36,6 +36,11 @@
             </intent-filter>
         </activity>
 
+
+        <activity android:name=".presentation.ui.post.PostActivity"
+            android:exported="true">
+
+        </activity>
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="map.client.id" />

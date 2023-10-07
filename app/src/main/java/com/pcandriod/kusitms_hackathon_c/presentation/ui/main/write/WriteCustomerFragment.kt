@@ -29,6 +29,7 @@ import com.pcandriod.kusitms_hackathon_c.data.remote.service.HomeService
 import com.pcandriod.kusitms_hackathon_c.data.remote.service.WriteService
 import com.pcandriod.kusitms_hackathon_c.databinding.FragmentWriteCustomerBinding
 import com.pcandriod.kusitms_hackathon_c.databinding.FragmentWriteOwnerBinding
+import com.pcandriod.kusitms_hackathon_c.presentation.MySharedPreferences
 import com.pcandriod.kusitms_hackathon_c.presentation.adapter.PostAdapter
 import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.MainActivity
 import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.home.HomeFragment
@@ -53,7 +54,6 @@ class WriteCustomerFragment(var itemList: ArrayList<PostItem>) : Fragment() {
         mainActivity = activity as MainActivity
         // 앨범 설정
         albumLauncher = albumSetting(fragmentWriteCustomerBinding.ivRegisterImage)
-
 
         fragmentWriteCustomerBinding.run {
 
@@ -142,6 +142,8 @@ class WriteCustomerFragment(var itemList: ArrayList<PostItem>) : Fragment() {
 
 
     private fun postCustomer() {
+        val userId = MySharedPreferences.getUserId(this.requireContext())
+        Log.d("dada", userId.toString())
         val api = ApiModule.getInstance().create(WriteService::class.java)
         if (
             fragmentWriteCustomerBinding.etvContent.text.toString() != ""
@@ -150,20 +152,21 @@ class WriteCustomerFragment(var itemList: ArrayList<PostItem>) : Fragment() {
         ) {
             api.postCustomer(
                 WriteCustomerRequest(
-                    accessToken = "",
-                    "가게 소식",
-                    fragmentWriteCustomerBinding.etvTitle.toString(),
-                    fragmentWriteCustomerBinding.etvContent.toString()
+                    accessToken = userId.toString(),
+                    category = "가게 소식",
+                    title = fragmentWriteCustomerBinding.etvTitle.text.toString(),
+                    content = fragmentWriteCustomerBinding.etvContent.text.toString()
                 )
             ).enqueue(object : Callback<ResponsePost> {
                 override fun onResponse(
                     call: Call<ResponsePost>,
                     response: Response<ResponsePost>
                 ) {
-                    Log.d("HomeFragment", "API 성공 ${response.body()}")
+                    Log.d("dada", fragmentWriteCustomerBinding.etvTitle.text.toString())
+                    Log.d("dada", response.code().toString())
                     val postItem = PostItem(
-                        fragmentWriteCustomerBinding.etvTitle.toString(),
-                        fragmentWriteCustomerBinding.etvContent.toString()
+                        fragmentWriteCustomerBinding.etvTitle.text.toString(),
+                        fragmentWriteCustomerBinding.etvContent.text.toString()
                     )
                     itemList.add(postItem)
                     val fragmentManager = requireActivity().supportFragmentManager
