@@ -50,4 +50,8 @@
         <item name="android:textSize">10sp</item>
     </style>
 
+    <style name="ShapeAppearanceOverlayExtended" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">53dp</item>
+    </style>
 </resources>
