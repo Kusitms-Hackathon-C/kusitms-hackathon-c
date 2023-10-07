@@ -5,9 +5,20 @@ plugins {
     id 'com.google.dagger.hilt.android'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     namespace 'com.pcandriod.kusitms_hackathon_c'
     compileSdk 33
+
+    viewBinding{
+        enabled = true
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
 
     defaultConfig {
         applicationId "com.pcandriod.kusitms_hackathon_c"
@@ -15,6 +26,8 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
+
+        buildConfigField "String", "MAP_API_KEY", properties['map.client.id']
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -82,4 +95,8 @@ dependencies {
     // Dagger Hilt
     implementation 'com.google.dagger:hilt-android:2.47'
     kapt "com.google.dagger:hilt-compiler:2.47"
+
+    // 네이버 지도 SDK
+    implementation 'com.naver.maps:map-sdk:3.17.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
 }
