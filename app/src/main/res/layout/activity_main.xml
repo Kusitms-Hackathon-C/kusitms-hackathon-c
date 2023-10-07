@@ -7,23 +7,28 @@
     tools:context=".presentation.ui.main.MainActivity" >
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/mainContainer"
+        android:id="@+id/fv_main"
         android:name="com.pcandriod.kusitms_hackathon_c.presentation.ui.main.map.MapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationViewMain"
+        app:layout_constraintBottom_toTopOf="@+id/btm_nav_main"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationViewMain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        app:itemActiveIndicatorStyle="@style/Widget.MaterialComponents.BottomNavigationView.PrimarySurface"
+        android:id="@+id/btm_nav_main"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_btm_nav"
+        app:itemBackground="@android:color/transparent"
+        app:menu="@menu/menu_btm_nav_home"
+        app:itemTextColor="@color/bottom_nav_home_selector"
         app:labelVisibilityMode="labeled"
+        app:itemRippleColor="@android:color/transparent"
+        android:paddingHorizontal="32dp"
+        app:itemActiveIndicatorStyle="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/mainContainer" />
+        app:layout_constraintStart_toStartOf="@+id/fv_main" />
 </androidx.constraintlayout.widget.ConstraintLayout>

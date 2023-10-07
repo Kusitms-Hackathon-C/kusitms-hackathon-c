@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import com.pcandriod.kusitms_hackathon_c.BuildConfig
+import androidx.fragment.app.Fragment
 import com.pcandriod.kusitms_hackathon_c.R
 import com.pcandriod.kusitms_hackathon_c.data.data.ResultSearchKeyword
 import com.pcandriod.kusitms_hackathon_c.data.remote.service.KakaoAPI
@@ -16,9 +17,14 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.home.HomeFragment
+import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.map.MapFragment
+import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.mypage.MyPageFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private val manager = supportFragmentManager
+
 
     companion object {
         const val BASE_URL = "https://dapi.kakao.com/"
@@ -27,11 +33,35 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_main)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        HomeFragment().changeFragment()
+        initBottomNav()
+    }
+
+    private fun initBottomNav() {
+        binding.btmNavMain.itemIconTintList = null
+        binding.btmNavMain.setOnItemSelectedListener {
+            when(it.itemId) {
+                R.id.nav_fragment_home -> {
+                    HomeFragment().changeFragment()
+                }
+                R.id.nav_fragment_map -> {
+                    MapFragment().changeFragment()
+                }
+                R.id.nav_fragment_mypage -> {
+                    MyPageFragment().changeFragment()
+                }
+            }
+            return@setOnItemSelectedListener true
+        }
+    }
+
+    private fun Fragment.changeFragment() {
+        manager.beginTransaction().replace(R.id.fv_main, this).commit()
     }
 
     // 키보드 내리는 메서드
