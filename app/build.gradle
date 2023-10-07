@@ -28,6 +28,8 @@ android {
         versionName "1.0"
 
         buildConfigField "String", "MAP_API_KEY", properties['map.client.id']
+        buildConfigField "String", "NAVER_CLIENT_ID", properties['NAVER_CLIENT_ID']
+        buildConfigField "String", "NAVER_CLIENT_SECRET", properties['NAVER_CLIENT_SECRET']
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -95,6 +97,10 @@ dependencies {
     // Dagger Hilt
     implementation 'com.google.dagger:hilt-android:2.47'
     kapt "com.google.dagger:hilt-compiler:2.47"
+
+    // 네이버 로그인
+    implementation 'com.navercorp.nid:oauth:5.6.0'
+
 
     // 네이버 지도 SDK
     implementation 'com.naver.maps:map-sdk:3.17.0'
