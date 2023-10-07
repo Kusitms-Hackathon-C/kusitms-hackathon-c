@@ -1,5 +1,6 @@
 package com.pcandriod.kusitms_hackathon_c.presentation.ui.main.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,7 +12,9 @@ import com.pcandriod.kusitms_hackathon_c.R
 import com.pcandriod.kusitms_hackathon_c.data.data.PostItem
 import com.pcandriod.kusitms_hackathon_c.data.module.api.ApiModule
 import com.pcandriod.kusitms_hackathon_c.data.remote.response.ResponsePost
+import com.pcandriod.kusitms_hackathon_c.data.remote.response.ResponsePostDetail
 import com.pcandriod.kusitms_hackathon_c.data.remote.service.HomeService
+import com.pcandriod.kusitms_hackathon_c.data.remote.service.PostService
 import com.pcandriod.kusitms_hackathon_c.databinding.FragmentHomeBinding
 import com.pcandriod.kusitms_hackathon_c.presentation.adapter.PostAdapter
 import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.MainActivity
@@ -190,6 +193,29 @@ class HomeFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<ResponsePost>, t: Throwable) {
+                    Log.e("HomeFragment", "API 실패 ${t}")
+                }
+
+            })
+    }
+
+
+
+    private fun getPostDetail() {
+        val api = ApiModule.getInstance().create(PostService::class.java)
+        api.getPostDetail(id)
+            .enqueue(object: Callback<ResponsePostDetail> {
+                override fun onResponse(
+                    call: Call<ResponsePostDetail>,
+                    response: Response<ResponsePostDetail>
+                ) {
+                    if (response.isSuccessful) {
+                        Log.d("HomeFragment", "API 성공 ${response.body()}")
+
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponsePostDetail>, t: Throwable) {
                     Log.e("HomeFragment", "API 실패 ${t}")
                 }
 

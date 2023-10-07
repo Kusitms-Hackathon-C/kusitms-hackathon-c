@@ -20,7 +20,8 @@ class PostAdapter(private val itemPost: ArrayList<PostItem>) :
         onItemClickListener = listener
     }
 
-    private var articleIds: ArrayList<Int> = ArrayList()
+    private var articleId: Int = 0
+
 
 
 
@@ -35,6 +36,7 @@ class PostAdapter(private val itemPost: ArrayList<PostItem>) :
         val itemList = itemPost?.get(position)
         holder.title.text = itemList?.title
         holder.content.text = itemList?.content
+        holder.id = position
     }
 
 
@@ -43,7 +45,7 @@ class PostAdapter(private val itemPost: ArrayList<PostItem>) :
     inner class PostViewHolder(val binding: ItemHomePostBinding) : RecyclerView.ViewHolder(binding.root) {
         val title = binding.tvTitle
         val content = binding.tvContent
-        val id: Int? = 0
+        var id: Int? = 0
 
         init {
             binding.root.setOnClickListener {
@@ -51,7 +53,7 @@ class PostAdapter(private val itemPost: ArrayList<PostItem>) :
                 val intent = Intent(context, PostActivity::class.java)
                 intent.putExtra("제목", binding.tvTitle.text)
                 intent.putExtra("내용", binding.tvContent.text)
-                intent.putExtra("id", id)
+                intent.putExtra("id", articleId)
                 ContextCompat.startActivity(context, intent, null)
             }
         }
