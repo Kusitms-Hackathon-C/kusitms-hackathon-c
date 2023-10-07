@@ -10,7 +10,15 @@ import com.navercorp.nid.profile.NidProfileCallback
 import com.navercorp.nid.profile.data.NidProfileResponse
 import com.pcandriod.kusitms_hackathon_c.BuildConfig
 import com.pcandriod.kusitms_hackathon_c.R
+import com.pcandriod.kusitms_hackathon_c.data.module.api.ApiModule
+import com.pcandriod.kusitms_hackathon_c.data.module.api.GlobalApplication
+import com.pcandriod.kusitms_hackathon_c.data.remote.request.SignInRequest
+import com.pcandriod.kusitms_hackathon_c.data.remote.response.ResponseSignIn
+import com.pcandriod.kusitms_hackathon_c.data.remote.service.LoginService
 import com.pcandriod.kusitms_hackathon_c.databinding.ActivityLoginBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
@@ -33,6 +41,7 @@ class LoginActivity : AppCompatActivity() {
     private fun naverLogin() {
         val naverClientId = BuildConfig.NAVER_CLIENT_ID
         val naverClientSecret = BuildConfig.NAVER_CLIENT_SECRET
+        val api = ApiModule.getInstance().create(LoginService::class.java)
 
         binding.run {
             btnNaverLogin.setOnClickListener {
@@ -45,6 +54,26 @@ class LoginActivity : AppCompatActivity() {
                                 Log.d(TAG, "네이버 로그인 유저 정보 : $name")
                                 Log.d(TAG, "인가 토큰 : $accessToken")
                                 Log.d(TAG, "${result.profile}")
+
+
+                                api.postSignIn(
+                                    SignInRequest(accessToken, name)
+                                ).enqueue(object: Callback<ResponseSignIn> {
+                                    override fun onResponse(
+                                        call: Call<ResponseSignIn>,
+                                        response: Response<ResponseSignIn>
+                                    ) {
+                                        Log.d(TAG, "API 성공 ${response.body().toString()}")
+                                    }
+
+                                    override fun onFailure(
+                                        call: Call<ResponseSignIn>,
+                                        t: Throwable
+                                    ) {
+                                        Log.e(TAG, "API 실패 ${t}")
+                                    }
+                                })
+
 
                             }
 
@@ -64,7 +93,7 @@ class LoginActivity : AppCompatActivity() {
                     override fun onFailure(httpStatus: Int, message: String) {
                     }
                 }
-                NaverIdLoginSDK.initialize(this@LoginActivity, naverClientId, naverClientSecret, "세이브로드")
+                NaverIdLoginSDK.initialize(this@LoginActivity, naverClientId, naverClientSecret, "우리동네지킴이")
                 NaverIdLoginSDK.authenticate(this@LoginActivity, oAuthLoginCallback)
             }
         }
