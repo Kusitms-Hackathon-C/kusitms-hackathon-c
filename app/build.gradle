@@ -5,24 +5,29 @@ plugins {
     id 'com.google.dagger.hilt.android'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     namespace 'com.pcandriod.kusitms_hackathon_c'
-    compileSdk 34
+    compileSdk 33
+
+    viewBinding{
+        enabled = true
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
 
     defaultConfig {
         applicationId "com.pcandriod.kusitms_hackathon_c"
-        minSdk 33
-        targetSdk 34
+        minSdk 26
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
-        def localProperties = new Properties()
-        localProperties.load(
-                new FileInputStream(rootProject.file("local.properties")
-                )
-        )
-        buildConfigField("String", "NAVER_CLIENT_ID", localProperties['NAVER_CLIENT_ID'])
-        buildConfigField("String", "NAVER_CLIENT_SECRET", localProperties['NAVER_CLIENT_SECRET'])
+        buildConfigField "String", "MAP_API_KEY", properties['map.client.id']
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -50,18 +55,18 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.10.0'
+    implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     // ViewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2"
-    implementation 'androidx.activity:activity-ktx:1.8.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1"
+    implementation 'androidx.activity:activity-ktx:1.7.2'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
     implementation 'androidx.fragment:fragment-ktx:1.6.1'
 
     // Retrofit
@@ -71,11 +76,11 @@ dependencies {
     implementation 'com.squareup.moshi:moshi-kotlin:1.12.0'
 
     // Okhttp
-    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.2'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.2'
 
     // Lifecycle
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.2'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
 
     // Coroutine
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
@@ -91,7 +96,7 @@ dependencies {
     implementation 'com.google.dagger:hilt-android:2.47'
     kapt "com.google.dagger:hilt-compiler:2.47"
 
-
-    // 네이버 로그인
-    implementation 'com.navercorp.nid:oauth:5.6.0'
+    // 네이버 지도 SDK
+    implementation 'com.naver.maps:map-sdk:3.17.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
 }
