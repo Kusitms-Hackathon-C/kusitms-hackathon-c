@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
@@ -48,6 +49,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         mapView = fragmentMapBinding.mapView
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
+
+        val sheetBehavior = BottomSheetBehavior.from(fragmentMapBinding.includeStoreInfo.bottomSheetStoreInfo)
+
+        sheetBehavior.isHideable = true
+//        sheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
 
         NaverMapSdk.getInstance(mainActivity).client = NaverMapSdk.NaverCloudPlatformClient("${BuildConfig.MAP_API_KEY}")
