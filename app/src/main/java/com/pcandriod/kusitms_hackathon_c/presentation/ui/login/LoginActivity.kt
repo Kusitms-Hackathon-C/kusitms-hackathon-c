@@ -17,6 +17,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
     private var name: String = ""
+    private var accessToken = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -30,8 +31,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun naverLogin() {
-        val NAVER_CLIENT_ID = BuildConfig.NAVER_CLIENT_ID
-        val NAVER_CLIENT_SECRET = BuildConfig.NAVER_CLIENT_SECRET
+        val naverClientId = BuildConfig.NAVER_CLIENT_ID
+        val naverClientSecret = BuildConfig.NAVER_CLIENT_SECRET
 
         binding.run {
             btnNaverLogin.setOnClickListener {
@@ -40,7 +41,9 @@ class LoginActivity : AppCompatActivity() {
                         NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
                             override fun onSuccess(result: NidProfileResponse) {
                                 name = result.profile?.name.toString()
-                                Log.e(TAG, "네이버 로그인 유저 정보 : $name")
+                                accessToken = NaverIdLoginSDK.getAccessToken().toString()
+                                Log.d(TAG, "네이버 로그인 유저 정보 : $name")
+                                Log.d(TAG, "인가 토큰 : $accessToken")
                             }
 
                             override fun onError(errorCode: Int, message: String) {
@@ -59,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
                     override fun onFailure(httpStatus: Int, message: String) {
                     }
                 }
-                NaverIdLoginSDK.initialize(this@LoginActivity, NAVER_CLIENT_ID, NAVER_CLIENT_SECRET, "세이브로드")
+                NaverIdLoginSDK.initialize(this@LoginActivity, naverClientId, naverClientSecret, "세이브로드")
                 NaverIdLoginSDK.authenticate(this@LoginActivity, oAuthLoginCallback)
             }
         }
