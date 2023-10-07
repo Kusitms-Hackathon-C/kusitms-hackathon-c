@@ -1,23 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".presentation.ui.main.map.MapFragment">
 
-    <SearchView
-        android:id="@+id/sv_place"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="14dp"
-        android:layout_marginBottom="9dp"
-        android:queryHint="신당동"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <com.naver.maps.map.MapView
-        android:id="@+id/mapView"
+        <SearchView
+            android:id="@+id/sv_place"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginBottom="9dp"
+            android:queryHint="신당동" />
+
+        <com.naver.maps.map.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.naver.maps.map.MapView>
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/includeStoreInfo"
+        style="@style/Widget.Material3.BottomSheet"
+        app:layout_behavior="@string/bottom_sheet_behavior"
+        layout="@layout/store_bottom_sheet"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </com.naver.maps.map.MapView>
-
-</LinearLayout>
+        android:layout_height="wrap_content" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
