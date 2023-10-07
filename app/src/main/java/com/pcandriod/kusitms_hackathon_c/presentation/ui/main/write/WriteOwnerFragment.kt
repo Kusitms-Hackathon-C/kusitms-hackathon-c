@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,8 +18,14 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.pcandriod.kusitms_hackathon_c.R
+import com.pcandriod.kusitms_hackathon_c.data.module.api.ApiModule
+import com.pcandriod.kusitms_hackathon_c.data.remote.response.ResponsePost
+import com.pcandriod.kusitms_hackathon_c.data.remote.service.HomeService
 import com.pcandriod.kusitms_hackathon_c.databinding.FragmentWriteOwnerBinding
 import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.MainActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class WriteOwnerFragment : Fragment() {
 
@@ -31,7 +38,6 @@ class WriteOwnerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         fragmentWriteOwnerBinding = FragmentWriteOwnerBinding.inflate(inflater)
         mainActivity = activity as MainActivity
         // 앨범 설정
@@ -113,4 +119,6 @@ class WriteOwnerFragment : Fragment() {
 
         return albumLauncher
     }
+
+
 }

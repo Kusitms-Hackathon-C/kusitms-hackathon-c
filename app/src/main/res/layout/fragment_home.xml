@@ -144,7 +144,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cl_menu" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/extFloatingActionButton"
+        android:id="@+id/fab_add_post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
