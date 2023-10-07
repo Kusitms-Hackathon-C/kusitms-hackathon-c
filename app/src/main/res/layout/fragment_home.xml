@@ -95,7 +95,7 @@
             android:paddingHorizontal="16dp"
             android:text="가게 소식"
             android:textColor="@android:color/white"
-            android:theme="@style/subtitle3"
+            android:theme="@style/subtitle4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
