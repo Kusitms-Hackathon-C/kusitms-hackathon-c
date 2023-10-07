@@ -44,6 +44,8 @@ class LoginActivity : AppCompatActivity() {
                                 accessToken = NaverIdLoginSDK.getAccessToken().toString()
                                 Log.d(TAG, "네이버 로그인 유저 정보 : $name")
                                 Log.d(TAG, "인가 토큰 : $accessToken")
+                                Log.d(TAG, "${result.profile}")
+
                             }
 
                             override fun onError(errorCode: Int, message: String) {
