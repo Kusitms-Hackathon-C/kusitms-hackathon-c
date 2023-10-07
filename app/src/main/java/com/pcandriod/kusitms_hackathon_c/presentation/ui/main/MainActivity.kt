@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     var storeId = 0L
     var storeName = ""
+    var storeReviewCount = 0
 
 
     companion object {

@@ -246,6 +246,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             markers[m].icon = OverlayImage.fromResource(R.drawable.ic_marker_click)
                             storeId = result?.get(m)!!.id
                             mainActivity.storeName = result?.get(m)!!.name
+                            mainActivity.storeReviewCount = result?.get(m)!!.fenceNum
                             fragmentMapBinding.includeStoreInfo.run {
                                 tvStoreName.text = result?.get(m)!!.name
                                 tvStoreReview.text = "울타리 ${result?.get(m)!!.fenceNum}"

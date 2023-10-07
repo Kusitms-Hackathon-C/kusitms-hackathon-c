@@ -44,6 +44,20 @@ class StoreInfoFragment : Fragment() {
 
         fragmentStoreInfoBinding.run {
 
+            textView2.text = "${mainActivity.storeReviewCount}명이 이 가게를 지키고 싶어 해요!"
+            imageView.setImageResource(R.drawable.step0)
+            if(mainActivity.storeReviewCount == 1) {
+                imageView.setImageResource(R.drawable.step1)
+            } else if(mainActivity.storeReviewCount == 2) {
+                imageView.setImageResource(R.drawable.step2)
+            } else if(mainActivity.storeReviewCount == 3) {
+                imageView.setImageResource(R.drawable.step3)
+            } else if(mainActivity.storeReviewCount == 4) {
+                imageView.setImageResource(R.drawable.step4)
+            } else if(mainActivity.storeReviewCount == 5) {
+                imageView.setImageResource(R.drawable.step5)
+            }
+
             materialToolbar.run {
                 title = "${mainActivity.storeName}"
             }
