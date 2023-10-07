@@ -19,11 +19,16 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.home.HomeFragment
 import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.map.MapFragment
+import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.map.StoreInfoFragment
 import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.mypage.MyPageFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val manager = supportFragmentManager
+
+    var storeId = 0L
+    var storeName = ""
+    var storeReviewCount = 0
 
 
     companion object {

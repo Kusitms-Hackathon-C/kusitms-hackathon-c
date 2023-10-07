@@ -6,25 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.pcandriod.kusitms_hackathon_c.R
-import com.pcandriod.kusitms_hackathon_c.databinding.FragmentMypageBinding
 import com.pcandriod.kusitms_hackathon_c.databinding.FragmentWriteCompleteBinding
+import com.pcandriod.kusitms_hackathon_c.databinding.FragmentWriteCustomerBinding
+import com.pcandriod.kusitms_hackathon_c.databinding.FragmentMypageBinding
 import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.home.HomeFragment
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [WriteCompleteFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class WriteCompleteFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
+    lateinit var fragmentWriteCompleteBinding: FragmentWriteCompleteBinding
     lateinit var binding: FragmentWriteCompleteBinding
 
 
@@ -43,7 +36,17 @@ class WriteCompleteFragment : Fragment() {
         binding = FragmentWriteCompleteBinding.inflate(inflater, container, false)
         return binding.root
 
+
+        fragmentWriteCompleteBinding = FragmentWriteCompleteBinding.inflate(inflater)
+
+        fragmentWriteCompleteBinding.run {
+            materialToolbar.run {
+                title = "글쓰기"
+            }
+        }
+        return fragmentWriteCompleteBinding.root
     }
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,24 +61,4 @@ class WriteCompleteFragment : Fragment() {
         }
     }
 
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment WriteCompleteFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            WriteCompleteFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }
