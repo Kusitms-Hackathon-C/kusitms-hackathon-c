@@ -35,7 +35,8 @@ class PostAdapter(private val itemPost: ArrayList<PostItem>) :
 
     class PostViewHolder(val binding: ItemHomePostBinding) : RecyclerView.ViewHolder(binding.root) {
         fun setItem(title: String, content: String) {
-            binding.tvTitle.text
+            binding.tvTitle.text = title
+            binding.tvContent.text = content
         }
     }
 }
