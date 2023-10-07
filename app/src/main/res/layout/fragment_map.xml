@@ -6,6 +6,14 @@
     android:orientation="vertical"
     tools:context=".presentation.ui.main.map.MapFragment">
 
+    <SearchView
+        android:id="@+id/sv_place"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="14dp"
+        android:layout_marginBottom="9dp"
+        android:queryHint="신당동"/>
+
     <com.naver.maps.map.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
