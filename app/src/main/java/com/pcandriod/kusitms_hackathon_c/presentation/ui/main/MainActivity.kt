@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        HomeFragment().changeFragment()
+        HomeFragment(ArrayList()).changeFragment()
         initBottomNav()
     }
 
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         binding.btmNavMain.setOnItemSelectedListener {
             when(it.itemId) {
                 R.id.nav_fragment_home -> {
-                    HomeFragment().changeFragment()
+                    HomeFragment(ArrayList()).changeFragment()
                 }
                 R.id.nav_fragment_map -> {
                     MapFragment().changeFragment()

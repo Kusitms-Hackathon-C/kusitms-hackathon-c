@@ -16,15 +16,13 @@ import com.pcandriod.kusitms_hackathon_c.databinding.FragmentHomeBinding
 import com.pcandriod.kusitms_hackathon_c.presentation.adapter.PostAdapter
 import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.MainActivity
 import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.write.WriteCustomerFragment
-import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.write.WriteOwnerFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeFragment : Fragment() {
+class HomeFragment(var itemList : ArrayList<PostItem>) : Fragment() {
     lateinit var binding: FragmentHomeBinding
     lateinit var mainActivity: MainActivity
-    private var itemList = ArrayList<PostItem>()
 
     private lateinit var mRecyclerView: RecyclerView
 
@@ -85,7 +83,7 @@ class HomeFragment : Fragment() {
         binding.fabAddPost.setOnClickListener {
             val fragmentManager = requireActivity().supportFragmentManager
             val transaction = fragmentManager.beginTransaction()
-            transaction.replace(R.id.fv_main, WriteCustomerFragment())
+            transaction.replace(R.id.fv_main, WriteCustomerFragment(itemList))
             transaction.addToBackStack(null)
             transaction.commit()
         }
