@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.pcandriod.kusitms_hackathon_c.R
+import com.pcandriod.kusitms_hackathon_c.databinding.FragmentMypageBinding
+import com.pcandriod.kusitms_hackathon_c.databinding.FragmentWriteCompleteBinding
+import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.home.HomeFragment
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +25,9 @@ class WriteCompleteFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    lateinit var binding: FragmentWriteCompleteBinding
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -34,9 +40,24 @@ class WriteCompleteFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_write_complete, container, false)
+        binding = FragmentWriteCompleteBinding.inflate(inflater, container, false)
+        return binding.root
+
     }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.button.setOnClickListener {
+            val fragmentManager = requireActivity().supportFragmentManager
+            val transaction = fragmentManager.beginTransaction()
+            transaction.replace(R.id.fv_main, HomeFragment())
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+    }
+
 
     companion object {
         /**

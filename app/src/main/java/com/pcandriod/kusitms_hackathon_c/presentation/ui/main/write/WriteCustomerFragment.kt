@@ -54,12 +54,18 @@ class WriteCustomerFragment(var itemList: ArrayList<PostItem>) : Fragment() {
         // 앨범 설정
         albumLauncher = albumSetting(fragmentWriteCustomerBinding.ivRegisterImage)
 
+
         fragmentWriteCustomerBinding.run {
+
 
             ivRegisterImage.visibility = View.GONE
 
             ibtnClose.setOnClickListener {
-
+                val fragmentManager = requireActivity().supportFragmentManager
+                val transaction = fragmentManager.beginTransaction()
+                transaction.replace(R.id.fv_main, HomeFragment())
+                transaction.addToBackStack(null)
+                transaction.commit()
             }
 
             btnComplete.setOnClickListener {
@@ -144,8 +150,8 @@ class WriteCustomerFragment(var itemList: ArrayList<PostItem>) : Fragment() {
         ) {
             api.postCustomer(
                 WriteCustomerRequest(
-                    "",
-                    "",
+                    accessToken = "",
+                    "가게 소식",
                     fragmentWriteCustomerBinding.etvTitle.toString(),
                     fragmentWriteCustomerBinding.etvContent.toString()
                 )
@@ -162,7 +168,7 @@ class WriteCustomerFragment(var itemList: ArrayList<PostItem>) : Fragment() {
                     itemList.add(postItem)
                     val fragmentManager = requireActivity().supportFragmentManager
                     val transaction = fragmentManager.beginTransaction()
-                    transaction.replace(R.id.fv_main, HomeFragment(itemList))
+                    transaction.replace(R.id.fv_main, WriteCompleteFragment())
                     transaction.addToBackStack(null)
                     transaction.commit()
                 }

@@ -20,7 +20,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeFragment(var itemList : ArrayList<PostItem>) : Fragment() {
+class HomeFragment : Fragment() {
+    lateinit var itemList : ArrayList<PostItem>
     lateinit var binding: FragmentHomeBinding
     lateinit var mainActivity: MainActivity
 
@@ -33,6 +34,7 @@ class HomeFragment(var itemList : ArrayList<PostItem>) : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater)
         mainActivity = activity as MainActivity
+        itemList = ArrayList()
         apiStart()
 
         return binding.root

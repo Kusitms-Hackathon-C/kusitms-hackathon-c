@@ -1,5 +1,6 @@
 package com.pcandriod.kusitms_hackathon_c.presentation.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import com.pcandriod.kusitms_hackathon_c.data.remote.request.SignInRequest
 import com.pcandriod.kusitms_hackathon_c.data.remote.response.ResponseSignIn
 import com.pcandriod.kusitms_hackathon_c.data.remote.service.LoginService
 import com.pcandriod.kusitms_hackathon_c.databinding.ActivityLoginBinding
+import com.pcandriod.kusitms_hackathon_c.presentation.ui.main.MainActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -63,6 +65,8 @@ class LoginActivity : AppCompatActivity() {
                                         response: Response<ResponseSignIn>
                                     ) {
                                         Log.d(TAG, "API 성공 ${response.body().toString()}")
+                                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                                        startActivity(intent)
                                     }
 
                                     override fun onFailure(

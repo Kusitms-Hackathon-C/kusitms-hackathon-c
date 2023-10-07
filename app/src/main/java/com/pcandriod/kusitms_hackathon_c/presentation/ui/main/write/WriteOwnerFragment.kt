@@ -48,7 +48,11 @@ class WriteOwnerFragment : Fragment() {
             ivRegisterImage.visibility = View.GONE
 
             ibtnClose.setOnClickListener {
-
+                val fragmentManager = requireActivity().supportFragmentManager
+                val transaction = fragmentManager.beginTransaction()
+                transaction.replace(R.id.fv_main, WriteCompleteFragment())
+                transaction.addToBackStack(null)
+                transaction.commit()
             }
 
             btnComplete.setOnClickListener {
