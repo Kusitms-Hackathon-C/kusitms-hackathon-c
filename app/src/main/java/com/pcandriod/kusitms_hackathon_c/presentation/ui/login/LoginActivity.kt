@@ -11,7 +11,6 @@ import com.navercorp.nid.profile.data.NidProfileResponse
 import com.pcandriod.kusitms_hackathon_c.BuildConfig
 import com.pcandriod.kusitms_hackathon_c.R
 import com.pcandriod.kusitms_hackathon_c.data.module.api.ApiModule
-import com.pcandriod.kusitms_hackathon_c.data.module.api.GlobalApplication
 import com.pcandriod.kusitms_hackathon_c.data.remote.request.SignInRequest
 import com.pcandriod.kusitms_hackathon_c.data.remote.response.ResponseSignIn
 import com.pcandriod.kusitms_hackathon_c.data.remote.service.LoginService
